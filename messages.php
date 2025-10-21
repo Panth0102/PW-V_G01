@@ -20,7 +20,7 @@ require_once 'config/connect.php';
 $loggedInUserId = $_SESSION['user_id'];
 
 // Fetch all messages for the logged-in user (both sent and received)
-$sql = "SELECT m.Message_ID, m.Message_Text, m.Timestamp,
+$sql = "SELECT m.Message_ID, m.Message_Text, m.Timestamp, m.From_User_ID, m.To_User_ID,
                u_from.Name as From_User_Name, u_to.Name as To_User_Name,
                s.Skill_Name, s.Skill_ID
         FROM Messages m
@@ -44,18 +44,7 @@ if ($stmt = $conn->prepare($sql)) {
 $conn->close();
 ?>
 
-    <div class="navbar">
-        <div class="nav-left">
-            <span class="brand-title">SkillSwap</span>
-            <a href="dashboard.php">Home</a>
-            <a href="offer_skill.php">Offer/Seek Skill</a>
-            <a href="messages.php">Messages</a>
-        </div>
-        <div class="nav-right">
-            <span>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?>!</span>
-            <a href="logout.php">Logout</a>
-        </div>
-    </div>
+<?php include 'includes/navbar.php'; ?>
 
     <div class="page-wrapper">
         <div class="page-header">

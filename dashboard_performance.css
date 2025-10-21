@@ -1,0 +1,245 @@
+/* DASHBOARD PERFORMANCE FIX - Disable heavy CSS effects */
+
+/* Disable all backdrop filters (major performance killer) */
+* {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+/* Disable all animations */
+*,
+*::before,
+*::after {
+    animation: none !important;
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+}
+
+/* Disable all transitions */
+*,
+*::before,
+*::after {
+    transition: none !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+}
+
+/* Disable transforms on hover */
+*:hover {
+    transform: none !important;
+    -webkit-transform: none !important;
+}
+
+/* Simplify gradients to solid colors */
+.hero-section {
+    background: var(--primary) !important;
+}
+
+.login-btn {
+    background: var(--primary) !important;
+}
+
+.gradient-text {
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    -webkit-text-fill-color: unset !important;
+    color: white !important;
+}
+
+/* Remove complex box shadows */
+* {
+    box-shadow: none !important;
+}
+
+/* Disable background animations */
+.container::before,
+.login-section::before {
+    display: none !important;
+}
+
+/* Force hardware acceleration for scrolling */
+body {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Optimize skill cards */
+.skill-card {
+    contain: layout style paint;
+    will-change: auto;
+}
+
+/* Remove floating card animations */
+.floating-card {
+    animation: none !important;
+    position: static !important;
+}
+
+/* Disable theme toggle animations */
+.theme-toggle {
+    transition: none !important;
+}
+
+.theme-icon {
+    transition: none !important;
+}
+
+/* Simplify login container */
+.login-container {
+    background: var(--surface) !important;
+    backdrop-filter: none !important;
+}
+
+/* Remove hero badge blur */
+.hero-badge {
+    backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Optimize navigation */
+.main-nav {
+    backdrop-filter: none !important;
+    background: var(--surface) !important;
+}
+
+/*
+ FOOTER STYLES */
+.main-footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    margin-top: 4rem;
+    padding: 3rem 0 1rem;
+    color: var(--text-muted);
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.footer-section h4 {
+    color: var(--text);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.footer-section p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.footer-links a:hover {
+    color: var(--primary);
+}
+
+.footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+}
+
+.footer-bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer-stats {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+}
+
+.footer-stats span {
+    color: var(--text-muted);
+}
+
+/* Responsive footer */
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .footer-bottom-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-stats {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* PAGINATION STYLES */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 3rem 0;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+}
+
+.pagination .btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.pagination .btn:hover {
+    background: var(--elevated);
+    color: var(--primary);
+}
+
+.page-info {
+    color: var(--text-muted);
+    font-weight: 500;
+    padding: 0 1rem;
+}
+
+/* Skills counter in pagination */
+.skills-counter {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}

@@ -43,18 +43,7 @@ $stmt->close();
 $conn->close();
 ?>
 
-    <div class="navbar">
-        <div class="nav-left">
-            <span class="brand-title">SkillSwap</span>
-            <a href="dashboard.php">Home</a>
-            <a href="offer_skill.php">Offer/Seek Skill</a>
-            <a href="messages.php">Messages</a>
-        </div>
-        <div class="nav-right">
-            <span>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?>!</span>
-            <a href="logout.php">Logout</a>
-        </div>
-    </div>
+<?php include 'includes/navbar.php'; ?>
 
     <div class="page-wrapper">
         <div class="success-container">

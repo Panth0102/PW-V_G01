@@ -10,6 +10,9 @@ $body_class = "theme-dark";
 // Include header
 include 'includes/header.php';
 
+// Add performance CSS for dashboard
+echo '<link rel="stylesheet" href="dashboard_performance.css">';
+
 // Check if the user is logged in, if not then redirect to login page
 if (!isset($_SESSION['user_id'])) {
     header("location: index.php");
@@ -23,6 +26,9 @@ $user_name = $_SESSION['user_name'];
 $search = $_GET['search'] ?? '';
 $category_filter = $_GET['category'] ?? '';
 $skill_type_filter = $_GET['skill_type'] ?? '';
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 10; // Show only 10 skills per page for better performance
+$offset = ($page - 1) * $limit;
 
 $sql = "SELECT s.Skill_ID, s.Skill_Name, s.Skill_Type, s.Description, s.Date_Posted, s.Price, s.Duration_Hours, s.Max_Students, u.Name as User_Name,
                (SELECT COUNT(*) FROM Enrollments e WHERE e.Skill_ID = s.Skill_ID AND e.Status = 'Active') as Current_Enrollments
@@ -43,27 +49,25 @@ if (!empty($skill_type_filter)) {
 if (!empty($conditions)) {
     $sql .= " WHERE " . implode(" AND ", $conditions);
 }
-$sql .= " ORDER BY s.Date_Posted DESC";
+$sql .= " ORDER BY s.Date_Posted DESC LIMIT $limit OFFSET $offset";
 
 $result = $conn->query($sql);
+
+// Get total count for pagination
+$count_sql = "SELECT COUNT(*) as total FROM Skills s JOIN Users u ON s.User_ID = u.User_ID";
+if (!empty($conditions)) {
+    $count_sql .= " WHERE " . implode(" AND ", $conditions);
+}
+$count_result = $conn->query($count_sql);
+$total_skills = $count_result->fetch_assoc()['total'];
+$total_pages = ceil($total_skills / $limit);
 
 // Fetch categories for filter dropdown
 $categories_sql = "SELECT Category_ID, Category_Name FROM Categories ORDER BY Category_Name";
 $categories_result = $conn->query($categories_sql);
 ?>
 
-    <div class="navbar">
-        <div class="nav-left">
-            <span class="brand-title">SkillSwap</span>
-            <a href="dashboard.php">Home</a>
-            <a href="offer_skill.php">Offer/Seek Skill</a>
-            <a href="messages.php">Messages</a>
-        </div>
-        <div class="nav-right">
-            <span>Welcome, <?php echo htmlspecialchars($user_name); ?>!</span>
-            <a href="logout.php">Logout</a>
-        </div>
-    </div>
+<?php include 'includes/navbar.php'; ?>
 
     <div class="page-wrapper">
         <h2 style="margin-bottom:12px;">SkillSwap Dashboard</h2>
@@ -133,6 +137,28 @@ $categories_result = $conn->query($categories_sql);
                 <p>No skills found.</p>
             <?php endif; ?>
         </div>
+
+        <!-- Skills Counter -->
+        <div class="skills-counter">
+            Showing <?php echo (($page - 1) * $limit) + 1; ?>-<?php echo min($page * $limit, $total_skills); ?> of <?php echo number_format($total_skills); ?> skills
+        </div>
+
+        <!-- Pagination -->
+        <?php if ($total_pages > 1): ?>
+            <div class="pagination">
+                <?php if ($page > 1): ?>
+                    <a href="?page=1&search=<?php echo urlencode($search); ?>&category=<?php echo urlencode($category_filter); ?>&skill_type=<?php echo urlencode($skill_type_filter); ?>" class="btn">« First</a>
+                    <a href="?page=<?php echo $page - 1; ?>&search=<?php echo urlencode($search); ?>&category=<?php echo urlencode($category_filter); ?>&skill_type=<?php echo urlencode($skill_type_filter); ?>" class="btn">‹ Previous</a>
+                <?php endif; ?>
+                
+                <span class="page-info">Page <?php echo $page; ?> of <?php echo $total_pages; ?></span>
+                
+                <?php if ($page < $total_pages): ?>
+                    <a href="?page=<?php echo $page + 1; ?>&search=<?php echo urlencode($search); ?>&category=<?php echo urlencode($category_filter); ?>&skill_type=<?php echo urlencode($skill_type_filter); ?>" class="btn">Next ›</a>
+                    <a href="?page=<?php echo $total_pages; ?>&search=<?php echo urlencode($search); ?>&category=<?php echo urlencode($category_filter); ?>&skill_type=<?php echo urlencode($skill_type_filter); ?>" class="btn">Last »</a>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
     </div>
 
 <?php 

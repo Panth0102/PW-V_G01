@@ -4,19 +4,16 @@
  * Centralized configuration for the SkillSwap application
  */
 
-// Database Configuration - Works for both local and Heroku
-// Heroku will use environment variables, local can use defaults
-$cleardb_url = parse_url(getenv("CLEARDB_DATABASE_URL") ?: "mysql://root:@localhost/skillswap");
-
-define('DB_HOST', $cleardb_url["host"] ?? 'localhost');
-define('DB_USERNAME', $cleardb_url["user"] ?? 'root');
-define('DB_PASSWORD', $cleardb_url["pass"] ?? '');
-define('DB_NAME', substr($cleardb_url["path"], 1) ?? 'skillswap');
+// Local Database Configuration for MAMP
+define('DB_HOST', 'localhost');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', 'root'); // MAMP default password
+define('DB_NAME', 'skillswap');
 
 // Application Configuration
 define('APP_NAME', 'SkillSwap');
 define('APP_VERSION', '1.0.0');
-define('APP_URL', getenv('APP_URL') ?: 'http://localhost'); // Will be set by Heroku
+define('APP_URL', 'http://localhost:8888/PW-V_G01'); // Local MAMP URL
 
 // Security Configuration
 define('SESSION_TIMEOUT', 3600); // 1 hour in seconds
@@ -34,7 +31,7 @@ define('SMTP_USERNAME', '');
 define('SMTP_PASSWORD', '');
 
 // Error Reporting (set to false in production)
-define('DEBUG_MODE', getenv('DEBUG_MODE') === 'true'); // Set via Heroku config vars
+define('DEBUG_MODE', true); // Local development mode
 
 if (DEBUG_MODE) {
     error_reporting(E_ALL);

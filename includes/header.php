@@ -31,6 +31,8 @@ require_once __DIR__ . '/../config/config.php';
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="enhanced_navbar.css">
+    <link rel="stylesheet" href="enhanced_footer.css">
     
     <!-- Preload critical resources -->
     <link rel="preload" href="assets/css/style.css" as="style">
