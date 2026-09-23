@@ -1,4 +1,4 @@
-# SkillSwap - Modern Learning Platform
+# SkillSwap - Modern Platform of Learning
 
 A modern web application for skill exchange and learning, optimized for Mac and MAMP development environment.
 
